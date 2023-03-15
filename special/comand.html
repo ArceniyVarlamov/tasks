@@ -1,0 +1,199 @@
+<html>
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://stemkoski.github.io/A-Frame-Examples/js/aframe-spritesheet-animation.js"></script>
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  
+  <body style="margin: 0px; overflow: hidden">
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let marker = document.querySelector("#B");
+        let video = document.querySelector("#Danila");
+        marker.addEventListener("markerFound", function () {
+          var markerId = marker.id;
+          console.log("markerFound", markerId);
+          video.play();
+        });
+        marker.addEventListener("markerLost", function () {
+          var markerId = marker.id;
+          console.log("markerLost", markerId);
+          video.pause();
+        });
+      });
+    </script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let marker = document.querySelector("#C");
+        let video = document.querySelector("#Katia");
+        marker.addEventListener("markerFound", function () {
+          var markerId = marker.id;
+          console.log("markerFound", markerId);
+          video.play();
+        });
+        marker.addEventListener("markerLost", function () {
+          var markerId = marker.id;
+          console.log("markerLost", markerId);
+          video.pause();
+        });
+      });
+    </script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let marker = document.querySelector("#D");
+        let video = document.querySelector("#Arceny");
+        marker.addEventListener("markerFound", function () {
+          var markerId = marker.id;
+          console.log("markerFound", markerId);
+          video.play();
+        });
+        marker.addEventListener("markerLost", function () {
+          var markerId = marker.id;
+          console.log("markerLost", markerId);
+          video.pause();
+        });
+      });
+    </script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let marker = document.querySelector("#F");
+        let video = document.querySelector("#Natasha");
+        marker.addEventListener("markerFound", function () {
+          var markerId = marker.id;
+          console.log("markerFound", markerId);
+          video.play();
+        });
+        marker.addEventListener("markerLost", function () {
+          var markerId = marker.id;
+          console.log("markerLost", markerId);
+          video.pause();
+        });
+      });
+    </script>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        let marker = document.querySelector("#G");
+        let video = document.querySelector("#Magnitogorsk");
+        marker.addEventListener("markerFound", function () {
+          var markerId = marker.id;
+          console.log("markerFound", markerId);
+          video.play();
+        });
+        marker.addEventListener("markerLost", function () {
+          var markerId = marker.id;
+          console.log("markerLost", markerId);
+          video.pause();
+        });
+      });
+    </script>
+    
+    <a-scene embedded arjs>
+      <a-assets>
+        <video
+          id="Magnitogorsk"
+          src="https://cdn.glitch.me/b008c373-328e-4db5-881a-9a03fdfcd8fe/Magnitogorsk%20%D0%9C%D0%B0%D0%B3%D0%BD%D0%B8%D1%82%D0%BE%D0%B3%D0%BE%D1%80%D1%81%D0%BA%202018%204K.mp4?v=1671034712975"
+          loop="true"
+        />
+      </a-assets>
+
+      <a-assets>
+        <video
+          id="Danila"
+          src="./video/danila.mp4"
+          loop="true"
+        />
+      </a-assets>
+
+      <a-assets>
+        <video
+          id="Katia"
+          src="./video/katya.mp4"
+          loop="true"
+        />
+      </a-assets>
+
+      <a-assets>
+        <video
+          id="Arceny"
+          src="./video/arceniy.mp4"
+          loop="true"
+        />
+      </a-assets>
+
+      <a-assets>
+        <video
+          id="Natasha"
+          src="./video/natasha.mp4"
+          loop="true"
+        />
+      </a-assets>
+      
+      <a-assets>
+        <img
+          id="img1"
+          src="./img/prim.png"
+        />
+      </a-assets>
+
+      <a-marker
+        id="B"
+        type="pattern"
+        preset="custom"
+        url="./patterns/pattern-Danila3D.patt"
+      >
+        <a-video src="#Danila" rotation="-90 0 0"></a-video>
+      </a-marker>
+
+      <a-marker
+        id="A"
+        type="pattern"
+        preset="custom"
+        url="./patterns/pattern-logo.patt"
+      >
+        <a-image src="#img1" rotation="-90 0 0"></a-image>
+      </a-marker>
+
+      <a-marker
+        id="D"
+        type="pattern"
+        preset="custom"
+        url="./patterns/pattern-Arseniy3D.patt"
+      >
+        <a-video src="#Arceny" rotation="-90 0 0"></a-video>
+      </a-marker>
+
+      <a-marker
+        id="C"
+        type="pattern"
+        preset="custom"
+        url="./patterns/pattern-Kate3D.patt"
+      >
+        <a-video src="#Katia" rotation="-90 0 0"></a-video>
+      </a-marker>
+
+      <a-marker
+        id="F"
+        type="pattern"
+        preset="custom"
+        url="./patterns/pattern-Natali3D.patt"
+      >
+        <a-video src="#Natasha" rotation="-90 0 0"></a-video>
+      </a-marker>
+
+      <a-marker
+        id="G"
+        type="pattern"
+        preset="custom"
+        url="./patterns/pattern-city.patt"
+      >
+        <a-video src="#Magnitogorsk" rotation="-90 0 0"></a-video>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+</html>

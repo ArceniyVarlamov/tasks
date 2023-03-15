@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<script src="https://stemkoski.github.io/A-Frame-Examples/js/aframe-spritesheet-animation.js"></script>
+		<title>Задание 11</title>
+	</head>
+	<body style="margin: 0px; overflow: hidden">
+	 <a-scene embedded arjs>
+			<a-assets>
+				<img
+					id="animate"
+					src="https://stemkoski.github.io/A-Frame-Examples/images/spritesheet-test.png"
+				/>
+			</a-assets>
+			<a-marker
+				preset="custom"
+				type="pattern"
+				url="./patterns/pattern-logo.patt"
+			>
+				<a-box
+					position="0 0 0"
+					animation="property: rotation; to: 0 -360 0; loop: true; easing: linear; dur: 8000"
+					material="shader: flat; src: #animate; transparent: true; "
+					spritesheet-animation="rows: 2; columns: 8; frameDuration: 0.08; loop: true;"
+					rotato
+					geometry
+				>
+				</a-box>
+			</a-marker>
+			<a-entity camera></a-entity>
+		</a-scene>
+	</body>
+</html>

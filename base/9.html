@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Задание 9</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="nine">
+        <div class="nine999">
+          <div>
+            <p>a-box</p>
+            <p>Создает примитивную форму куба, с помощью которого можно реализовывать такие объекты, как стены и ящики</p>
+          </div>
+          <div>
+            <p>a-sphere</p>
+            <p>Создает примитивный объект сферической формы, с помощью которого можно реализовать такие объекты, как мячи и планеты</p>
+          </div>
+          <div>
+            <p>a-cursor</p>
+            <p>Сетка, которая позволяет взаимодействовать со сценой на устройствах, не имеющих ручного контроллера.</p>
+          </div>
+          <div>
+            <p>a-gltf-model</p>
+            <p>Отображает 3D модели с разрешением gltf/glb</p>
+          </div>
+          <div>
+            <p>a-entity</p>
+            <p>Универсальный объект, который может обеспечивать внешний вид, поведение и функционал элементов.</p>
+          </div>
+          <div>
+            <p>a-video</p>
+            <p>Отображает видео как текстуру на плоской поверхности</p>
+          </div>
+          <div>
+            <p>a-image</p>
+            <p>Отображает изображение на плоской поверхности</p>
+          </div>
+          <div>
+            <p>a-torus-knot</p>
+            <p>Создает примитивный объект, который по форме напоминает крендель</p>
+          </div>
+          <div>
+            <p>a-scene</p>
+            <p>Обрабатывает three.js и WebVR/WebXR, с помощью которых настраивает визуализацию, камеру, освещение, VR-эффект и интерфейс</p>
+          </div>
+          <div>
+            <p>a-marker</p>
+            <p>Создает объект, который создаёт относительную сетку координат вокруг распознанного фрагмента изображения</p>
+          </div>
+          <div>
+            <p>a-asset-item</p>
+            <p>Вызывает загрузчик файла three.js, с помощью которого можно загрузить любой вид файла</p>
+          </div>
+          <div>
+            <p>a-plane</p>
+            <p>Создает плоскую поверхность</p>
+          </div>
+          <div>
+            <p>a-asset</p>
+            <p>Используется для корректной предзагрузки все файлов разного типа и их дальнейшего корректного отображения.</p>
+          </div>
+        </div>
+      </div>
+      <style>
+        body {
+          margin: 0;
+        }
+        
+        
+        .nine {
+          margin: 45px auto;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .nine999 {
+          display: flex;
+          flex-wrap: wrap;
+          flex-direction: column;
+          width: 90%;
+          font-family: sans-serif;
+          font-size: 16px;
+        }
+        
+        .nine999 > div {
+          display: flex;
+          justify-content: left;
+        }
+        
+        .nine999 p:first-child {
+          border: 1px solid black;
+          border-radius: 2px;
+          width: 20%;
+          padding: 10px;
+          margin: 0;
+        }
+        
+        .nine999 p:last-child {
+          border: 1px solid black;
+          border-radius: 2px;
+          width: 80%;
+          padding: 10px;
+          margin: 0;
+        }
+      </style>
+  </body>
+</html>
