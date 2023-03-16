@@ -5,15 +5,12 @@
 			name="viewport"
 			content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
 		/>
-		<title>Hello, AR Cube!</title>
-		<!-- include three.js library -->
+		<title>Ar cobe</title>
 		<script src="https://unpkg.com/three@0.87.1/build/three.js"></script>
 		<script src="https://unpkg.com/three@0.87.1/examples/js/controls/OrbitControls.js"></script>
 		<script src="https://unpkg.com/three@0.87.1/examples/js/loaders/GLTFLoader.js"></script>
-		<!-- include jsartookit -->
 		<script src="jsartoolkit5/artoolkit.min.js"></script>
 		<script src="jsartoolkit5/artoolkit.api.js"></script>
-		<!-- include threex.artoolkit -->
 		<script src="threex/threex-artoolkitsource.js"></script>
 		<script src="threex/threex-artoolkitcontext.js"></script>
 		<script src="threex/threex-arbasecontrols.js"></script>
@@ -22,10 +19,6 @@
 	</head>
 
 	<body style="margin: 0px; overflow: hidden; font-family: Monospace">
-		<!-- 
-  Example created by Lee Stemkoski: https://github.com/stemkoski
-  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
--->
 
 		<script type="module">
 			import { GLTFLoader } from "https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js";
@@ -63,11 +56,6 @@
 				clock = new THREE.Clock();
 				deltaTime = 0;
 				totalTime = 0;
-
-				////////////////////////////////////////////////////////////
-				// setup arToolkitSource
-				////////////////////////////////////////////////////////////
-
 				arToolkitSource = new THREEx.ArToolkitSource({
 					sourceType: "webcam",
 				});
@@ -83,30 +71,17 @@
 				arToolkitSource.init(function onReady() {
 					onResize();
 				});
-
-				// handle resize event
 				window.addEventListener("resize", function () {
 					onResize();
 				});
-
-				////////////////////////////////////////////////////////////
-				// setup arToolkitContext
-				////////////////////////////////////////////////////////////
-
-				// create atToolkitContext
 				arToolkitContext = new THREEx.ArToolkitContext({
 					cameraParametersUrl: "data/camera_para.dat",
 					detectionMode: "mono",
 				});
 
-				// copy projection matrix to camera when initialization complete
 				arToolkitContext.init(function onCompleted() {
 					camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
 				});
-
-				////////////////////////////////////////////////////////////
-				// setup markerRoots
-				////////////////////////////////////////////////////////////
 
 				markerRootArray = [];
 				markerGroupArray = [];
@@ -149,19 +124,13 @@
 					markerRoot.add(markerGroup);
 				}
 
-				////////////////////////////////////////////////////////////
-				// setup scene
-				////////////////////////////////////////////////////////////
-
 				sceneGroup = new THREE.Group();
-				// a 1x1x1 cube model with scale factor 1.25 fills up the physical cube
 				sceneGroup.scale.set(1.25 / 2, 1.25 / 2, 1.25 / 2);
 
 				let loader = new THREE.TextureLoader();
 
 				let tileTexture = loader.load("images/tiles.jpg");
 
-				// reversed cube
 				sceneGroup.add(
 					new THREE.Mesh(
 						new THREE.BoxGeometry(2, 2, 2),
@@ -171,8 +140,6 @@
 						}),
 					),
 				);
-
-				// cube vertices
 
 				let sphereGeometry = new THREE.SphereGeometry(0.2, 6, 6);
 
@@ -203,8 +170,6 @@
 					sphereMesh.position.copy(sphereCenters[i]);
 					sceneGroup.add(sphereMesh);
 				}
-
-				// cube edges
 
 				let edgeGeometry = new THREE.CylinderGeometry(0.05, 0.05, 2, 32);
 
@@ -276,7 +241,6 @@
 			}
 
 			function update() {
-				// update artoolkit on every frame
 				if (arToolkitSource.ready !== false)
 					arToolkitContext.update(arToolkitSource.domElement);
 
