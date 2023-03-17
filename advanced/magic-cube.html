@@ -86,12 +86,12 @@
 				markerRootArray = [];
 				markerGroupArray = [];
 				patternArray = [
-					"letterA",
-					"letterB",
-					"letterC",
-					"letterD",
-					"letterF",
-					"kanji",
+					"pattern-irkutsk1",
+					"pattern-irkutsk2",
+					"pattern-irkutsk3",
+					"pattern-magnitogorsk1",
+					"pattern-magnitogorsk2",
+					"pattern-magnitogorsk3",
 				];
 
 				let rotationArray = [
@@ -224,14 +224,14 @@
 
 				const loaderGltf = new THREE.GLTFLoader();
 
-				loaderGltf.load("./data/чтото.glb", function (gltf) {
+				loaderGltf.load("./data/tank.glb", function (gltf) {
 					var object = gltf.scene;
-					console.log(gltf);
-					const mixer = new THREE.AnimationMixer(object);
-					var action = mixer.clipAction(gltf.animations[0]);
-					action.play();
-					object.scale.set(0.3, 0.3, 0.3);
-					object.rotation.y = Math.PI / 2;
+					// console.log(gltf);
+					// const mixer = new THREE.AnimationMixer(object);
+					// var action = mixer.clipAction(gltf.animations[0]);
+					// action.play();
+					object.scale.set(0.07, 0.07, 0.07);
+					// object.rotation.x= Math.PI / 2;
 					sceneGroup.add(object);
 				});
 
