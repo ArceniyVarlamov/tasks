@@ -23,7 +23,7 @@
 
 	<body style="margin: 0px; overflow: hidden; font-family: Monospace">
 		<script type="module">
-			var scene, camera, renderer, clock, deltaTime, totalTime, shadowMesh;
+			var scene, camera, renderer, clock, deltaTime, totalTime, shadowMesh, object;
 
 			var arToolkitSource, arToolkitContext;
 
@@ -122,6 +122,20 @@
 					object.shadowMap = true;
           object.position.y += 1
 					sceneGroup.add(object);
+          document.addEventListener('keydown', (e) => {
+            if (e.key === "w") {
+              object.rotation.y -= 0.02;
+            }
+            if (e.key === "s") {
+              object.rotation.y += 0.02;
+            }
+            if (e.key === "a") {
+              object.rotation.x -= 0.02;
+            }
+            if (e.key === "d") {
+              object.rotation.x += 0.02;
+            }
+          })
 				});
 
 				let light = new THREE.DirectionalLight(0xffffff, 1, 20);
@@ -145,11 +159,7 @@
 				let ambientLight = new THREE.AmbientLight(0x000);
         ambientLight.position.add(1, 1, 1)
 				sceneGroup.add(ambientLight);
-        document.addEventListener('keydown', (e) => {
-          if (e.key === "w") {
-            object.rotation.x = Math.PI / 2;
-          }
-        })
+        
 			}
 
 			function update() {
