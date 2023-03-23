@@ -1,0 +1,104 @@
+* {
+  font-size: 24px;
+  font-weight: 600;
+  transition: 0.3s linear;
+}
+
+#score:hover {
+  opacity: 0.9;
+}
+
+#life:hover {
+  opacity: 0.9;
+}
+
+#restart:hover {
+  opacity: 0.9;
+}
+
+#score {
+  cursor: pointer;
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  padding: 0 20px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 217, 225);
+  color: crimson;
+  mix-blend-mode: overlay;
+
+}
+
+#life {
+  cursor: pointer;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  height: 50px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(236, 217, 255);
+  color: rgb(50, 20, 220);
+  mix-blend-mode: overlay;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+#end {
+  z-index: 1;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 20px 30px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(240, 248, 255);
+  color: rgb(110, 110, 110);
+}
+
+#restart {
+  z-index: 1;
+  cursor: pointer;
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  background-color: rgb(145, 128, 161);
+  height: 40px;
+  padding: 0 30px;
+  color: aliceblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#time {
+  cursor: pointer;
+  position: fixed;
+  left: 50%;
+  top: 20px;
+  transform: translateX(-50%);
+  background-color: rgba(145, 128, 161);
+  height: 40px;
+  padding: 0 30px;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}

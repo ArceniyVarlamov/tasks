@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<style>
+			.button {
+				cursor: pointer;
+				background-color: rgba(220, 223, 205, 0.5);
+				width: 10vh;
+				height: 10vh;
+				position: fixed;
+			}
+			.up {
+				border-bottom-left-radius: 10px;
+				border-bottom-right-radius: 10px;
+				top: 0px;
+				left: 45%;
+			}
+			.down {
+				bottom: 0px;
+				left: 45%;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+			}
+			.left {
+				top: 45%;
+				left: 0px;
+				border-top-right-radius: 10px;
+				border-bottom-right-radius: 10px;
+			}
+			.right {
+				top: 45%;
+				right: 0px;
+				border-top-left-radius: 10px;
+				border-bottom-left-radius: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<a-scene
+			vr-mode-ui="enabled: false;"
+			renderer="logarithmicDepthBuffer: true;"
+			embedded
+			arjs="trackingMethod: best; sourceType: webcam;debugUIEnabled: false;"
+		>
+			<a-assets>
+				<img id="tx" src="./images/tiles.jpg" />
+			</a-assets>
+			<a-marker  preset='custom' type='pattern' url='../base/patterns/pattern-logo.patt'>
+				<a-box id="control" src="#tx"></a-box>
+			</a-marker>
+			<a-entity camera></a-entity>
+		</a-scene>
+		<div class="up button"></div>
+		<div class="down button"></div>
+		<div class="right button"></div>
+		<div class="left button"></div>
+	</body>
+	<script>
+		var obj = document.getElementById("control");
+		let upb = document.getElementsByClassName("up")[0];
+		let downb = document.getElementsByClassName("down")[0];
+		let rightb = document.getElementsByClassName("right")[0];
+		let leftb = document.getElementsByClassName("left")[0];
+		var dx = 25;
+		let z = 0;
+    let y = 0
+    let x = 0
+
+		upb.addEventListener("mousedown", () => {
+			let set = setInterval(() => {
+				obj.setAttribute("rotation", `${x} ${y} 0`);
+				x += 1;
+			}, 10);
+			upb.addEventListener("mouseup", () => {
+				clearInterval(set);
+			});
+		});
+		downb.addEventListener("mousedown", () => {
+			let set = setInterval(() => {
+				obj.setAttribute("rotation", `${x} ${y} 0`);
+				x -= 1;
+			}, 10);
+			downb.addEventListener("mouseup", () => {
+				clearInterval(set);
+			});
+		});
+		rightb.addEventListener("mousedown", () => {
+			let set = setInterval(() => {
+				obj.setAttribute("rotation", `${x} ${y} 0`);
+				y += 1;
+			}, 10);
+			rightb.addEventListener("mouseup", () => {
+				clearInterval(set);
+			});
+		});
+    leftb.addEventListener("mousedown", () => {
+			let set = setInterval(() => {
+				obj.setAttribute("rotation", `${x} ${y} 0`);
+				y -= 1;
+			}, 10);
+			leftb.addEventListener("mouseup", () => {
+				clearInterval(set);
+			});
+		});
+	</script>
+</html>

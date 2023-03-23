@@ -1,0 +1,61 @@
+<html>
+	<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	<body style="margin: 0px; overflow: hidden">
+		<a-scene arjs embedded>
+			<a-marker
+				id="pattern_1"
+				type="pattern"
+				preset="custom"
+				url="pattern_1.patt"
+			>
+				<a-entity
+					id="babr"
+					gltf-model="babr_animate.gltf"
+					animation-mixer
+				></a-entity>
+			</a-marker>
+			<a-marker
+				id="pattern_2"
+				type="pattern"
+				preset="custom"
+				url="pattern_2.patt"
+			>
+				<a-entity id="person1" gltf-model="person_1.glb"></a-entity>
+			</a-marker>
+			<a-marker
+				id="pattern_3"
+				type="pattern"
+				preset="custom"
+				url="pattern_3.patt"
+			>
+				<a-entity id="person2" gltf-model="person_2.glb"></a-entity>
+			</a-marker>
+			<a-marker
+				id="pattern_4"
+				type="pattern"
+				preset="custom"
+				url="pattern_4.patt"
+			>
+				<a-entity id="person3" gltf-model="person_3.glb"></a-entity>
+			</a-marker>
+			<a-marker
+				id="pattern_5"
+				type="pattern"
+				preset="custom"
+				url="pattern_5.patt"
+			>
+				<a-entity id="person4" gltf-model="person_4.glb"></a-entity>
+			</a-marker>
+			<a-marker
+				id="pattern_6"
+				type="pattern"
+				preset="custom"
+				url="pattern_6.patt"
+			>
+				<a-entity id="logo" gltf-model="logo_nto.glb"></a-entity>
+			</a-marker>
+			<a-entity camera></a-entity>
+		</a-scene>
+	</body>
+</html>

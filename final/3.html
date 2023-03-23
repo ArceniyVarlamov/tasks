@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+	<body style="margin: 0px; overflow: hidden">
+		<script>
+			AFRAME.registerComponent("opacity", {
+				init: function () {
+					var el = this.el;
+					this.el.addEventListener("model-loaded", function (e) {
+						console.log(el.object3D.children[0].children[0].material.opacity);
+						el.object3D.children[0].children.forEach((element) => {
+							element.material.opacity = 0.5;
+						});
+					});
+				},
+			});
+		</script>
+		<a-scene
+			embedded
+			vr-mode-ui="enabled: false;"
+			arjs="trackingMethod: best; debugUIEnabled: false;"
+			renderer="logarithmicDepthBuffer: true;"
+		>
+			<a-assets>
+				<a-asset-item
+					id="obj"
+					src="./ref/primitives1.obj"
+				></a-asset-item>
+				<a-asset-item
+					id="mtl"
+					src="./ref/primitives1.mtl"
+				></a-asset-item>
+			</a-assets>
+			<a-marker id="marker_1" preset='custom' type='pattern' url='../base/patterns/pattern-logo.patt'>
+				<a-obj-model src="#obj" mtl="#mtl" opacity></a-obj-model>
+
+				<a-box color="blue" position="2 -1 0" scale="2 2 2"></a-box>
+				<a-sphere
+					color="yellow"
+					position="3 0.70 2"
+					scale="0.7 0.7 0.7"
+				></a-sphere>
+				<a-cylinder
+					color="red"
+					position="-2 2.5 2"
+					scale="1.5 3 1.5"
+				></a-cylinder>
+				<a-sphere
+					color="violet"
+					position="-1.5 1.5 -1.5"
+					scale="0.5 0.5 0.5"
+				></a-sphere>
+				<a-octahedron
+					color="green"
+					radius="5"
+					position="0.4 0 -2.5"
+					scale="0.29 0.2 0.29"
+					rotation="0 45 0"
+				></a-octahedron>
+			</a-marker>
+
+			<a-entity camera></a-entity>
+		</a-scene>
+	</body>
+</html>

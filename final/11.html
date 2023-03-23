@@ -1,0 +1,48 @@
+<html>
+	<head>
+		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	</head>
+	<body>
+		<script>
+			AFRAME.registerComponent("dot", {
+				schema: {
+					message: { type: "string", default: "0 0 0" },
+				},
+				init: function () {
+					let el = this.el;
+					el.setAttribute("geometry", "primitive: sphere");
+					el.setAttribute("scale", "0.02 0.02 0.02");
+					el.setAttribute("material", "color: green");
+					el.setAttribute("position", `${this.data}`);
+				},
+			});
+		</script>
+		<script type="module">
+			window.addEventListener("DOMContentLoaded", (event) => {
+				fetch("./ref/chaos.json")
+					.then(function (response) {
+						return response.json();
+					})
+					.then(function (data) {
+						for (let i = 0; i < data.length; i++) {
+							var el = document.createElement("a-entity");
+							el.setAttribute(
+								"dot",
+								`${data[i]["x"]} ${data[i]["y"]} ${data[i]["z"]}`,
+							);
+							document.querySelector("a-marker").appendChild(el);
+						}
+					});
+			});
+		</script>
+		<a-scene>
+			<a-marker
+				preset="custom"
+				type="pattern"
+				url="../base/patterns/pattern-logo.patt"
+			></a-marker>
+			<a-entity camera></a-entity>
+		</a-scene>
+	</body>
+</html>

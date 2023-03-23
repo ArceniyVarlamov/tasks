@@ -18,48 +18,48 @@
 				url="../base/patterns/pattern-logo.patt"
 				id="white"
 			>
-				<a-box position="0 0.5 0" color="white"></a-box>
+				<a-entity id="smth" position="0 0 0">
+					<a-box position="0 0.5 0" color="white"></a-box>
+				</a-entity>
 			</a-marker>
 			<a-marker markerhandler preset="hiro" id="red">
 				<a-box position="0 0.5 0" color="red"></a-box>
 			</a-marker>
-			<a-marker markerhandler preset="kanji" id="yellow">
-			</a-marker>
+			<a-marker markerhandler preset="kanji" id="yellow"> </a-marker>
 			<a-entity camera></a-entity>
 		</a-scene>
 		<script>
-			let findWhite = false
-      let findRed = false
-      let white = document.querySelector("#white")
-      let red = document.querySelector("#red")
-			document
-			  .querySelector("#white")
-			  .addEventListener("markerFound", (e) => {
-			    findWhite = true
-			  });
-			document
-			  .querySelector("#red")
-			  .addEventListener("markerFound", (e) => {
-			    findRed = true
-			  });
-			document
-			  .querySelector("#yellow")
-			  .addEventListener("markerFound", (e) => {
-          if (findRed && findWhite) {
-            console.log(red.object3D.position)
-            white.insertAdjacentHTML('beforeend', `<a-box position="${-red.object3D.position.x} ${red.object3D.position.y} ${0}" color="yellow"></a-box>`)
-          }
-			  });
-        document
-			  .querySelector("#red")
-			  .addEventListener("markerLost", (e) => {
-			    findRed = false
-			  });
-        document
-			  .querySelector("#white")
-			  .addEventListener("markerLost", (e) => {
-			    findWhite = false
-			  });
+			let findWhite = false;
+			let findRed = false;
+			let white = document.querySelector("#white");
+			let red = document.querySelector("#red");
+			let smth = document.querySelector("#smth");
+			document.querySelector("#white").addEventListener("markerFound", (e) => {
+				findWhite = true;
+			});
+			document.querySelector("#red").addEventListener("markerFound", (e) => {
+				findRed = true;
+			});
+			document.querySelector("#yellow").addEventListener("markerFound", (e) => {
+				if (findRed && findWhite) {
+					console.log(red.object3D.position);
+					let box = document.createElement("a-box");
+					console.log(box);
+					box.setAttribute("position", {
+						x: red.object3D.position.x,
+						y: red.object3D.position.y,
+						z: red.object3D.position.z,
+					});
+					box.setAttribute("color", "yellow");
+					smth.insertAdjacentElement("beforeend", box);
+				}
+			});
+			document.querySelector("#red").addEventListener("markerLost", (e) => {
+				findRed = false;
+			});
+			document.querySelector("#white").addEventListener("markerLost", (e) => {
+				findWhite = false;
+			});
 		</script>
 	</body>
 </html>

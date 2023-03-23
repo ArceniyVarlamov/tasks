@@ -1,0 +1,83 @@
+<html>
+	<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+	<body>
+		<script>
+			AFRAME.registerComponent("follow", {
+				schema: {
+					t1: {
+						type: "selector",
+					},
+				},
+				init: function () {
+					this.target = this.data.t1.object3D;
+				},
+
+				update: function () {
+					this.toPosition = this.target.position;
+				},
+
+				tick: function (time, timeDelta) {
+					let t = Math.abs(((time * 0.001) % 2) - 1);
+					t = Math.min(t, 0.98);
+					t = Math.max(t, 0.02);
+
+					let inter = new THREE.Vector3();
+					inter.add(this.toPosition);
+					inter.multiplyScalar(0.7);
+					inter.y += 5;
+					inter.multiplyScalar(t * (1 - t));
+
+					currentPosition = new THREE.Vector3();
+					currentPosition.add(this.toPosition);
+					currentPosition.multiplyScalar(t * t);
+					currentPosition.add(inter);
+					this.el.setAttribute("position", currentPosition);
+				},
+			});
+		</script>
+
+		<a-scene>
+			<a-marker preset='custom' type='pattern' url='./ref/pattern_circle.patt' id="one">
+				<a-sphere
+					radius="0.25"
+					follow="t1: #t1;"
+					color="blue"
+					position="0 0.2 0"
+				></a-sphere>
+
+				<a-sphere radius="0" id="t1" position="0 0 0"></a-sphere>
+			</a-marker>
+			<a-marker preset='custom' type='pattern' url='../base/patterns/pattern-logo.patt' id="two"> </a-marker>
+
+			<a-entity camera></a-entity>
+		</a-scene>
+		<script>
+			const marker = document.getElementById("one");
+			const marker2 = document.getElementById("two");
+			const target = document.getElementById("t1");
+			let fou = 0;
+			marker2.addEventListener("markerFound", () => {
+				fou = 1;
+			});
+			marker2.addEventListener("markerLost", () => {
+				fou = 0;
+			});
+
+			setInterval(() => {
+				if (fou == 1) {
+					target.setAttribute(
+						"position",
+						`${marker2.object3D.position.x - marker.object3D.position.x} ${
+							marker2.object3D.position.y - marker.object3D.position.y
+						}, ${marker2.object3D.position.z - marker.object3D.position.z}`,
+					);
+					console.log(target.object3D.position);
+				} else {
+					target.setAttribute("position", `0 0 0`);
+				}
+			}, 100);
+		</script>
+	</body>
+</html>

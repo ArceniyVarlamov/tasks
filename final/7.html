@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
-		<title>Задание 10</title>
-	</head>
-	<body>
-		<a-scene embedded arjs>
+	<title>{Название задания}</title>
+	<script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+
+	<body style="margin: 0px; overflow: hidden">
+		<a-scene
+			embedded
+			vr-mode-ui="enabled: false;"
+			arjs="trackingMethod: best; debugUIEnabled: false;"
+			renderer="logarithmicDepthBuffer: true;"
+		>
 			<a-assets>
 				<img
 					id="tiles"
-					src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR1JAJNzX2pWRjdoeyOllw9s4dTwL-ev5KHiAZ2uX9g696NxL4S2XUCpsLGgFMFJF1CBA&usqp=CAU"
+					src="./images/tiles.jpg"
 				/>
 			</a-assets>
 			<a-marker
@@ -22,24 +26,25 @@
 					src="#tiles"
 					material="side:back"
 					position="0 -1.5 0"
-					scale="0.4 2 0.4"
+					scale="1 2 1"
 				></a-cylinder>
-				<a-box
+				<a-cylinder
 					color="black"
-					material="side:front; shader:portal; blending:subtractive"
+					material="shader:portal; blending:subtractive"
 					segments-depth="1"
 					segments-height="1"
-					segments-width="0"
-				></a-box>
-				<a-box
+					segments-width="1"
+				></a-cylinder>
+				<a-cylinder
 					color="black"
-					material="side:front; shader:portal; blending:subtractive"
+					material="shader:portal; blending:subtractive"
 					rotation="0 90 0"
 					segments-depth="1"
 					segments-height="1"
-					segments-width="0"
-				></a-box>
+					segments-width="1"
+				></a-cylinder>
 			</a-marker>
+
 			<a-entity camera></a-entity>
 		</a-scene>
 	</body>
