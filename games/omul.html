@@ -110,12 +110,12 @@
           const cc = document.getElementById("countc");
           let pso = this.el.getAttribute("position");
           if (pso["y"] > 0) {
-            pso = `${pso["x"]} ${pso["y"] - 0.02} 0`;
+            pso = pso["x"].toString() + " " + (pso["y"] - 0.02).toString() + " 0";
           }
           this.el.setAttribute("position", pso);
           if (this.el.getAttribute("position")["y"] < 0) {
             let w = Math.random() * 8 - 4;
-            this.el.setAttribute("position", `${w} 5 0`);
+            this.el.setAttribute("position", w + " 5 0");
           }
 
           if (
@@ -126,7 +126,7 @@
             this.el.getAttribute("position")["y"] < 1
           ) {
             let w = Math.random() * 8 - 4;
-            this.el.setAttribute("position", `${w} 5 0`);
+            this.el.setAttribute("position", w + " 5 0");
             cc.textContent = (Number(cc.textContent) + 1).toString();
           }
         },
@@ -180,11 +180,11 @@
           "gltf-model",
           "https://cdn.glitch.global/33aa1ac4-4c6d-49d0-b78a-73b3c9f291aa/omul_pryzhok%20(1).glb?v=1678551063386"
         );
-        newDiv.setAttribute("scale", `0.2 0.2 0.2`);
-        newDiv.setAttribute("rotation", `-90 90 0`);
-        newDiv.setAttribute("animation-mixer", `clip: *; loop: repeat`);
-        newDiv.setAttribute("id", `coin${i}`);
-        newDiv.setAttribute("position", `${i * 2 - 2} 5 0`);
+        newDiv.setAttribute("scale", "0.2 0.2 0.2");
+        newDiv.setAttribute("rotation", "-90 90 0");
+        newDiv.setAttribute("animation-mixer", "clip: *; loop: repeat");
+        newDiv.setAttribute("id", "coin" + i);
+        newDiv.setAttribute("position", (i * 2 - 2) + " 5 0");
         newDiv.setAttribute("down", "");
         marker.appendChild(newDiv);
       }
@@ -194,12 +194,12 @@
       const button = document.getElementById("left");
       button.addEventListener("click", function () {
         let pso = plat.getAttribute("position");
-        plat.setAttribute("position", `${pso["x"] - 1} 0 0`);
+        plat.setAttribute("position", (pso["x"] - 1) + " 0 0");
       });
       const button2 = document.getElementById("right");
       button2.addEventListener("click", function () {
         let pso = plat.getAttribute("position");
-        plat.setAttribute("position", `${pso["x"] + 1} 0 0`);
+        plat.setAttribute("position", (pso["x"] + 1) + " 0 0");
       });
     </script>
     <script>
@@ -207,8 +207,8 @@
       let left = 2;
 
       const setTime = () => {
-        let seconds = `${left % 60}`.length === 1 ? `0${left % 60}` : `${left % 60}`;
-        time.textContent = `0${Math.floor(left / 60)}:${seconds}`;
+        let seconds = (left % 60).toString().length === 1 ? "0" + (left % 60) : (left % 60);
+        time.textContent = "0" + Math.floor(left / 60) + ":" + seconds;
       };
 
       const intervalSet = () => {

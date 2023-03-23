@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AR.js A-Frame</title>
+		<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+		<script src="https://ideaspacevr.github.io/aframe-particle-system-component/dist/aframe-particle-system-component.min.js"></script>
+		<script
+			type="text/javascript"
+			src="https://raw.githack.com/AR-js-org/AR.js/master/three.js/build/ar-threex-location-only.js"
+		></script>
+		<style>
+			html,
+			body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+			}
+			#background_status {
+				padding: 0px;
+				width: 220px;
+				margin: auto;
+			}
+			#status {
+				color: #2e6482;
+				font-family: sans-serif;
+				font-size: 23px;
+				font-weight: bold;
+				position: absolute;
+				bottom: 93%;
+				left: 24%;
+				cursor: pointer;
+			}
+			#backbt {
+				position: absolute;
+				bottom: 10%;
+				width: 110px;
+				right: 35%;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="cell" hidden="true">0</div>
+		<div id="background_status">
+			<img
+				id="loding"
+				src="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/some_div.svg?v=1679064982586"
+				style="width: 100%"
+			/>
+			<div id="status">Выберите сундук</div>
+		</div>
+		<div id="backbt" onclick="location.reload();">
+			<img
+				src="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/rechardg.png?v=1679071637057"
+				style="width: 100%"
+			/>
+		</div>
+		<script>
+			AFRAME.registerComponent("curl", {
+				init: function () {
+					this.el.addEventListener("mouseenter", function (evt) {
+						document.getElementById("cell").textContent = "1";
+						console.log(document.getElementById("cell"));
+					});
+					this.el.addEventListener("mouseleave", function (evt) {
+						document.getElementById("cell").textContent = "0";
+						console.log(document.getElementById("cell"));
+					});
+				},
+			});
+		</script>
+		<script>
+			AFRAME.registerComponent("curl2", {
+				init: function () {
+					this.el.addEventListener("mouseenter", function (evt) {
+						document.getElementById("cell").textContent = "2";
+						console.log(document.getElementById("cell"));
+					});
+					this.el.addEventListener("mouseleave", function (evt) {
+						document.getElementById("cell").textContent = "0";
+						console.log(document.getElementById("cell"));
+					});
+				},
+			});
+		</script>
+		<script>
+			AFRAME.registerComponent("curl3", {
+				init: function () {
+					this.el.addEventListener("mouseenter", function (evt) {
+						document.getElementById("cell").textContent = "3";
+						console.log(document.getElementById("cell"));
+					});
+					this.el.addEventListener("mouseleave", function (evt) {
+						document.getElementById("cell").textContent = "0";
+						console.log(document.getElementById("cell"));
+					});
+				},
+			});
+		</script>
+		<a-scene
+			vr-mode-ui="enabled: true"
+			arjs=" videoTexture: true; debugUIEnabled: true"
+			renderer="antialias: true; alpha: true"
+		>
+			<a-camera camera>
+				<a-entity
+					cursor="fuse: true; fuseTimeout: 1000"
+					position="0 0 -1"
+					geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.05"
+					material="color: #2e6482; shader: flat"
+				></a-entity>
+			</a-camera>
+			<a-entity
+				gps-new-entity-place="latitude: 52.276028; longitude: 104.286530"
+			>
+				<a-entity visibility-changer>
+					<!-- Have a hotspot plane that can be detected by the raycaster -->
+					<a-entity
+						material="color: red"
+						id="cp1"
+						gltf-model="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/BOX.glb?v=1679560483496"
+						position="0 0 -5"
+						scale="0.2 0.2 0.2"
+						rotation="0 90 0"
+						curl
+						animation-mixer="clip: *; loop: repeat"
+						class="collidable"
+					></a-entity>
+					<a-entity
+						material="color: red"
+						id="cp2"
+						gltf-model="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/BOX.glb?v=1679560483496"
+						position="-2 0 -5"
+						scale="0.2 0.2 0.2"
+						rotation="0 90 0"
+						curl2
+						animation-mixer="clip: *; loop: repeat"
+						class="collidable"
+					></a-entity>
+					<a-entity
+						id="cp3"
+						gltf-model="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/BOX.glb?v=1679560483496"
+						position="2 0 -5"
+						scale="0.2 0.2 0.2"
+						rotation="0 90 0"
+						curl3
+						animation-mixer="clip: *; loop: repeat"
+						class="collidable"
+						material="color: red"
+					></a-entity>
+					<a-entity
+						particle-system="color: #0000AA; particleCount: 500"
+						id="effects"
+						gltf-model="https://cdn.glitch.global/33aa1ac4-4c6d-49d0-b78a-73b3c9f291aa/effects.glb?v=1678513407470"
+						position="0 0 0"
+						scale="0.2 0.2 0.2"
+						rotation="0 90 0"
+						animation-mixer="clip: *; loop: repeat"
+						class="collidable"
+						visible="false"
+					>
+						<a-entity id="winob" position="-5 6 0" rotation="0 180 0"></a-entity
+					></a-entity>
+					<!-- transparent ->  прозрачность  -->
+
+					<script>
+						let k = 0;
+						let w = Math.floor(Math.random() * 3) + 1;
+						let obr = Math.floor(Math.random() * 3) + 1;
+						const wob = document.getElementById("winob");
+						let flag = false;
+						console.log(w);
+						if (obr == 1) {
+							wob.setAttribute(
+								"gltf-model",
+								"https://cdn.glitch.global/33aa1ac4-4c6d-49d0-b78a-73b3c9f291aa/1_trofey%20(1).glb?v=1678551061825",
+							);
+						} else if (obr == 2) {
+							wob.setAttribute(
+								"gltf-model",
+								"https://cdn.glitch.global/33aa1ac4-4c6d-49d0-b78a-73b3c9f291aa/chtoto%20(1).glb?v=1678551062320",
+							);
+						} else if (obr == 3) {
+							wob.setAttribute(
+								"gltf-model",
+								"https://cdn.glitch.global/33aa1ac4-4c6d-49d0-b78a-73b3c9f291aa/omul_pryzhok%20(1).glb?v=1678551063386",
+							);
+						}
+						const button = document.getElementById("backbt");
+						function Change() {
+							const cp1 = document.getElementById("cp1");
+							const cp2 = document.getElementById("cp2");
+							const cp3 = document.getElementById("cp3");
+							const effects = document.getElementById("effects");
+							const disp = document.getElementById("status");
+							if (w == k) {
+								disp.textContent = "Победа!";
+
+								const imgLoding = document.getElementById("loding");
+								imgLoding.setAttribute(
+									"src",
+									"https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/win_seal.png?v=1679128607563",
+								);
+								flag = true;
+							} else {
+								disp.textContent = "Неудача!";
+
+								const imgLoding = document.getElementById("loding");
+								imgLoding.setAttribute(
+									"src",
+									"https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/sad_seal.png?v=1679128763782",
+								);
+								flag = false;
+							}
+							if (k == 1) {
+								cp1.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/animayion-box.glb?v=1679562786578",
+								);
+								if (flag) {
+									effects.setAttribute("visible", "true");
+									effects.setAttribute("position", "-0.1 -0.5 -5");
+								}
+							} else if (k == 2) {
+								cp2.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/animayion-box.glb?v=1679562786578",
+								);
+
+								if (flag) {
+									effects.setAttribute("visible", "true");
+									effects.setAttribute("position", "-2.1 -0.5 -5");
+								}
+							} else if (k == 3) {
+								cp3.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/animayion-box.glb?v=1679562786578",
+								);
+								if (flag) {
+									effects.setAttribute("visible", "true");
+									effects.setAttribute("position", "1.9 -0.5 -5");
+								}
+							}
+						}
+
+						button.addEventListener("click", function () {
+							console.log(document.getElementById("cell"));
+							if (document.getElementById("cell").textContent == "1") {
+								k = 1;
+							} else if (document.getElementById("cell").textContent == "2") {
+								k = 2;
+							} else if (document.getElementById("cell").textContent == "3") {
+								k = 3;
+							}
+							Change();
+						});
+
+						addEventListener("touchstart", function () {
+							console.log(document.getElementById("cell"));
+							if (document.getElementById("cell").textContent == "1") {
+								k = 1;
+							} else if (document.getElementById("cell").textContent == "2") {
+								k = 2;
+							} else if (document.getElementById("cell").textContent == "3") {
+								k = 3;
+							}
+							Change();
+						});
+					</script>
+				</a-entity>
+			</a-entity>
+		</a-scene>
+	</body>
+</html>
