@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+	<script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+	<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+	<script src="https://ideaspacevr.github.io/aframe-particle-system-component/dist/aframe-particle-system-component.min.js"></script>
+	<head>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<style>
+			* {
+				font-size: 18px;
+				font-weight: 500;
+				transition: 0.3s linear;
+			}
+
+			#score:hover {
+				opacity: 0.9;
+			}
+
+			#life:hover {
+				opacity: 0.9;
+			}
+
+			#restart:hover {
+				opacity: 0.9;
+			}
+
+			#score {
+				cursor: pointer;
+				position: fixed;
+				left: 10px;
+				top: 10px;
+				padding: 0 20px;
+				height: 50px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: rgb(255, 217, 225);
+				color: crimson;
+			}
+
+			#life {
+				cursor: pointer;
+				position: fixed;
+				right: 10px;
+				top: 10px;
+				height: 50px;
+				padding: 0 20px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: rgb(236, 217, 255);
+				color: rgb(50, 20, 220);
+				font-size: 24px;
+				font-weight: 600;
+			}
+
+			#end {
+				z-index: 1;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				padding: 20px 30px;
+				transform: translate(-50%, -50%);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				background-color: rgba(240, 248, 255);
+				color: rgb(110, 110, 110);
+			}
+
+			#restart {
+				z-index: 1;
+				cursor: pointer;
+				position: fixed;
+				left: 50%;
+				bottom: 20px;
+				transform: translateX(-50%);
+				background-color: rgb(145, 128, 161);
+				height: 40px;
+				padding: 0 30px;
+				color: aliceblue;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			#time {
+				cursor: pointer;
+				position: fixed;
+				left: 50%;
+				top: 100px;
+				transform: translateX(-50%);
+				background-color: rgba(145, 128, 161);
+				height: 40px;
+				padding: 0 30px;
+				color: rgb(0, 0, 0);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			#background {
+				position: fixed;
+				left: 0;
+				top: 0;
+				height: 100%;
+				width: 100%;
+				background-color: rgba(0, 0, 0, 0.2);
+			}
+		</style>
+		<div id="formstat" hidden="true">0</div>
+		<div id="lifes" hidden="true">5</div>
+		<script>
+			AFRAME.registerComponent("follow", {
+				schema: {
+					t1: {
+						type: "selector",
+					},
+				},
+				init: function () {
+					this.target = this.data.t1.object3D;
+					this.time = 1000;
+				},
+
+				update: function () {
+					this.toPosition = this.target.position;
+					this.color = Math.floor(Math.random() * 3);
+				},
+
+				tick: function (time, timeDelta) {
+					this.time += timeDelta;
+					let t = Math.abs(((this.time * 0.001) % 2) - 1);
+					t = Math.min(t, 0.98);
+					t = Math.max(t, 0.02);
+
+					this.inter = new THREE.Vector3();
+					this.inter.add(this.toPosition);
+					this.inter.multiplyScalar(0.7);
+					this.inter.y += 5;
+					this.inter.multiplyScalar(t * (1 - t));
+
+					currentPosition = new THREE.Vector3();
+					currentPosition.add(this.toPosition);
+					currentPosition.multiplyScalar(t * t);
+					currentPosition.add(this.inter);
+
+					this.el.setAttribute("position", currentPosition);
+				},
+			});
+		</script>
+		<script>
+			var k = 8000;
+			AFRAME.registerComponent("random", {
+				schema: {
+					t1: {
+						type: "selector",
+					},
+					t2: {
+						type: "selector",
+					},
+					t3: {
+						type: "int",
+						default: 0,
+					},
+				},
+				init: function () {
+					this.color = Math.floor(Math.random() * 3) + 1;
+					this.form = Math.floor(Math.random() * 2) + 1;
+					if (this.data.t3 == 0) {
+						this.kubit = Math.floor(Math.random() * 2);
+					} else {
+						this.kubit == 0;
+					}
+
+					if (this.kubit == 0) {
+						if (this.color == 1) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube2.glb?v=1679536942411",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%A8%D0%90%D0%A0%D0%B8%D0%BA.glb?v=1679545518759",
+								);
+							}
+						} else if (this.color == 2) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube.glb?v=1679536937915",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%A8%D0%90%D0%A0%D0%B8%D0%BA1.glb?v=1679545516312",
+								);
+							}
+						} else if (this.color == 3) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube1.glb?v=1679536940050",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%A8%D0%90%D0%A0%D0%B8%D0%BA2.glb?v=1679545515149",
+								);
+							}
+						}
+					}
+
+					if (this.kubit == 1) {
+						if (this.color == 1) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D0%BA%D1%83%D0%B1.glb?v=1679551291681",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%88%D0%B0%D1%80.glb?v=1679545517723",
+								);
+							}
+						} else if (this.color == 2) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D0%BA%D1%83%D0%B11.glb?v=1679551294917",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%88%D0%B0%D1%801.glb?v=1679545511842",
+								);
+							}
+						} else if (this.color == 3) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D0%BA%D1%83%D0%B12.glb?v=1679551288450",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%BD%D1%8B%D0%B9%20%D1%88%D0%B0%D1%802.glb?v=1679545513966",
+								);
+							}
+						}
+					}
+				},
+
+				tick: function () {
+					this.pos = this.el.getAttribute("position");
+					if (this.pos.x < -1.9) {
+						kub.removeAttribute("follow");
+						kub.setAttribute("position", "0 0 0");
+						t1.setAttribute("position", "0 0 0");
+						kub.setAttribute("follow", "t1: #t1");
+						kub.removeAttribute("random");
+						kub.setAttribute("random", "t1: #score; t2: #formstat;");
+					}
+					if (this.pos.x > 1.9) {
+						setTimeout(() => {
+							kub.removeAttribute("follow");
+							kub.setAttribute("position", "0 0 0");
+							t1.setAttribute("position", "0 0 0");
+							kub.setAttribute("follow", "t1: #t1");
+						}, 1000);
+						this.kubit = 0;
+						if (this.color == 1) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube2.glb?v=1679536942411",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%A8%D0%90%D0%A0%D0%B8%D0%BA.glb?v=1679545518759",
+								);
+							}
+						} else if (this.color == 2) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube.glb?v=1679536937915",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%A8%D0%90%D0%A0%D0%B8%D0%BA1.glb?v=1679545516312",
+								);
+							}
+						} else if (this.color == 3) {
+							if (this.form == 1) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube1.glb?v=1679536940050",
+								);
+							} else if (this.form == 2) {
+								this.el.setAttribute(
+									"gltf-model",
+									"https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%A8%D0%90%D0%A0%D0%B8%D0%BA2.glb?v=1679545515149",
+								);
+							}
+						}
+					}
+					if (this.pos.z > 1.4) {
+						if (this.kubit == 1) {
+							endGame();
+							setTimeout(() => {
+								restart();
+							}, 4000);
+						}
+						if (this.data.t2.textContent != this.form - 1) {
+							removeLife();
+						} else {
+							if (this.color == 1) {
+								if (this.pos.x > 1) {
+									console.log("entrd");
+									addScore();
+								}
+							} else if (this.color == 2) {
+								if (this.pos.x < -1) {
+									console.log("entgr");
+
+									addScore();
+								}
+							} else if (this.color == 3) {
+								if (this.pos.x < 1) {
+									console.log("entbl");
+									addScore();
+								}
+							}
+						}
+
+						kub.removeAttribute("follow");
+						kub.setAttribute("position", "0 0 0");
+						t1.setAttribute("position", "0 0 0");
+						kub.setAttribute("follow", "t1: #t1");
+						kub.removeAttribute("random");
+						kub.setAttribute("random", "t1: #score; t2: #formstat;");
+					}
+				},
+			});
+		</script>
+		<a-scene>
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern-logo.patt?v=1679558566373"
+			>
+				<a-sphere
+					visible="false"
+					radius="0"
+					id="t1"
+					position="0 0 0"
+				></a-sphere>
+				<a-entity
+					id="kub"
+					gltf-model="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/cube2.glb?v=1679536942411"
+					follow="t1: #t1;"
+					position="0 0.2 0"
+					scale="0.25 0.25 0.25"
+					rotation="0 270 0"
+					animation-mixer="timeScale: 1.5"
+					random="t1: #score; t2: #formstat;"
+				></a-entity>
+				<a-entity
+					geometry="primitive: plane"
+					rotation="270 0 0"
+					scale="5 3 4"
+					position="0 -1 0.5"
+					material="src: https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/txtr.jpg?v=1679553089022"
+				></a-entity>
+				<a-entity
+					id="priR"
+					geometry="primitive: box"
+					position="1.5 0 1.5"
+					scale="0.5 0.5 0.5"
+					material="color:red"
+				></a-entity>
+				<a-entity
+					id="priB"
+					geometry="primitive: box"
+					position="0 0 1.5"
+					material="color:blue"
+					scale="0.5 0.5 0.5"
+				></a-entity>
+				<a-entity
+					id="priG"
+					geometry="primitive: box"
+					position="-1.5 0 1.5"
+					scale="0.5 0.5 0.5"
+					material="color:yellow"
+				></a-entity>
+				<a-entity
+					id="priDest"
+					gltf-model="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD%D0%B0.glb?v=1679554006765"
+					position="-2 -0.5 0"
+					scale="0.4 0.3 0.4"
+					material="color:black"
+				></a-entity>
+				<a-entity
+					id="priC"
+					gltf-model="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/nechto.glb?v=1679556431439"
+					position="2 0 0"
+					scale="0.15 0.15 0.15"
+				></a-entity>
+			</a-marker>
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern_red.patt?v=1679555540178"
+				id="red"
+			>
+				<a-box color="red"></a-box>
+			</a-marker>
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern-defolt%20.patt?v=1679559692161"
+				id="destroy"
+			>
+				<a-box color="black"></a-box>
+			</a-marker>
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern-trans.patt?v=1679555718889"
+				id="change"
+			>
+				<a-box color="white"></a-box>
+			</a-marker>
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern_yellow.patt?v=1679555673696"
+				id="green"
+			>
+				<a-box color="yellow"></a-box>
+			</a-marker>
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern_blue.patt?v=1679555629968"
+				id="blue"
+			>
+				<a-box color="blue"></a-box>
+			</a-marker>
+
+			<a-marker
+				type="pattern"
+				preset="custom"
+				url="https://cdn.glitch.global/e6350d8a-1230-4020-bbf8-73f1bd38507b/pattern-portal.patt?v=1679564248126"
+				id="bo"
+			>
+				<a-box color="violet"></a-box>
+			</a-marker>
+
+			<a-entity camera></a-entity>
+		</a-scene>
+		<script>
+			const markerr = document.getElementById("red");
+			const markerg = document.getElementById("green");
+			const markerb = document.getElementById("blue");
+			const mdest = document.getElementById("destroy");
+			const mchan = document.getElementById("change");
+			const rbox = document.getElementById("priR");
+			const gbox = document.getElementById("priB");
+			const bbox = document.getElementById("priG");
+			const bch = document.getElementById("priC");
+			const markerform = document.getElementById("bo");
+			const formst = document.getElementById("formstat");
+			const target = document.getElementById("t1");
+			const kub = document.getElementById("kub");
+			let form = 0;
+			mdest.addEventListener("markerLost", () => {
+				kub.removeAttribute("follow");
+				kub.setAttribute("position", "0 0 0");
+				t1.setAttribute("position", "-2 -1 0");
+				kub.setAttribute("follow", "t1: #t1");
+			});
+			mchan.addEventListener("markerLost", () => {
+				kub.removeAttribute("follow");
+				kub.setAttribute("position", "0 0 0");
+				t1.setAttribute("position", "2 0.5 0");
+				kub.setAttribute("follow", "t1: #t1");
+
+				setTimeout(() => {
+					bch.setAttribute(
+						"particle-system",
+						"color: #0000AA; particleCount: 200",
+					);
+					setTimeout(() => {
+						bch.removeAttribute("particle-system");
+					}, 500);
+				}, 500);
+			});
+			markerform.addEventListener("markerLost", () => {
+				form = 1;
+				rbox.setAttribute("geometry", "primitive: sphere");
+				gbox.setAttribute("geometry", "primitive: sphere");
+				bbox.setAttribute("geometry", "primitive: sphere");
+				rbox.setAttribute("scale", "0.75 0.75 0.75");
+				gbox.setAttribute("scale", "0.75 0.75 0.75");
+				bbox.setAttribute("scale", "0.75 0.75 0.75");
+				formst.textContent = `${form}`;
+			});
+			markerform.addEventListener("markerFound", () => {
+				form = 0;
+				rbox.setAttribute("geometry", "primitive: box");
+				gbox.setAttribute("geometry", "primitive: box");
+				bbox.setAttribute("geometry", "primitive: box");
+				rbox.setAttribute("scale", "1 1 1");
+				gbox.setAttribute("scale", "1 1 1");
+				bbox.setAttribute("scale", "1 1 1");
+				formst.textContent = `${form}`;
+			});
+			markerr.addEventListener("markerLost", () => {
+				kub.removeAttribute("follow");
+				kub.setAttribute("position", "0 0 0");
+				t1.setAttribute("position", "1.5 0 1.5");
+				kub.setAttribute("follow", "t1: #t1");
+			});
+			markerg.addEventListener("markerLost", () => {
+				kub.removeAttribute("follow");
+				kub.setAttribute("position", "0 0 0");
+				t1.setAttribute("position", "-1.5 0 1.5");
+				kub.setAttribute("follow", "t1: #t1");
+			});
+			markerb.addEventListener("markerLost", () => {
+				kub.removeAttribute("follow");
+				kub.setAttribute("position", "0 0 0");
+				t1.setAttribute("position", "0 0 1.5");
+				kub.setAttribute("follow", "t1: #t1");
+			});
+		</script>
+		<div id="score">Score: 0</div>
+		<div id="life">Life counter: 5</div>
+		<div id="end" style="display: none">Game ended</div>
+		<div id="restart">Restart</div>
+		<div id="time">0</div>
+		<div id="background" style="display: none"></div>
+		<audio controls="controls" id="audio" autoplay loop style="display: none">
+			<source
+				src="https://cdn.glitch.global/97d03534-e21b-43ae-a68a-a767c9730c83/back-music.mp3?v=1679457122915"
+				type="audio/wav"
+			/>
+			<source
+				src="https://cdn.glitch.global/97d03534-e21b-43ae-a68a-a767c9730c83/back-music.mp3?v=1679457122915"
+				type="audio/mpeg"
+			/>
+		</audio>
+		<script>
+			const score = document.querySelector("#score");
+			const life = document.querySelector("#life");
+			const end = document.querySelector("#end");
+			const start = document.querySelector("#restart");
+			const time = document.querySelector("#time");
+			const background = document.querySelector("#background");
+			const body = document.querySelector("body");
+			// поинтов
+			let points = 0;
+			//жизней
+			let lifes = 5;
+			// осталось времени
+			let left = 90;
+
+			const startAudio = () => {
+				let audio = document.createElement("div");
+				audio.innerHTML = `<audio controls="controls" id="audio" autoplay loop style="display: none">
+				<source
+					src="https://cdn.glitch.global/97d03534-e21b-43ae-a68a-a767c9730c83/pop.mp3?v=1679455658810"
+					type="audio/wav"
+				/>
+				<source
+					src="https://cdn.glitch.global/97d03534-e21b-43ae-a68a-a767c9730c83/pop.mp3?v=1679455658810"
+					type="audio/mpeg"
+				/>
+			</audio>`;
+				body.insertAdjacentElement("beforeend", audio);
+				setTimeout(() => {
+					body.removeChild(audio);
+				}, 1000);
+			};
+
+			// увеличение очков и обновление счётчика
+			const addScore = () => {
+				++points;
+				score.textContent = `Score: ${points}`; // Обновление счётчика очков
+			};
+
+			// уменьшение очков и обновление счётчика
+			const removeScore = () => {
+				--points;
+				score.textContent = `Score: ${points}`; // Обновление счётчика очков
+			};
+
+			// увеличение жизней и обновление счётчика
+			const addLife = () => {
+				++lifes;
+				life.textContent = `Life counter: ${lifes}`; // Обновление счётчика жизней
+			};
+
+			// показывание бэкграунда и сообщение об окончании игры
+			const endGame = () => {
+				end.textContent = `Game ended. Your score: ${points}`;
+				end.setAttribute("style", "display: block;");
+				background.setAttribute("style", "display: block;");
+			};
+
+			const intervalSet = () => {
+				let interval;
+
+				interval = setInterval(() => {
+					--left;
+					setTime();
+					if (left === 0) {
+						endGame();
+						clearInterval(interval);
+						return;
+					}
+				}, 1000);
+			};
+
+			intervalSet();
+
+			// уменьшение очков и обновление счётчика
+			const removeLife = () => {
+				--lifes;
+				if (lifes === 0) {
+					endGame();
+				}
+				life.textContent = `Life counter: ${lifes}`; // Обновление счётчика жизней
+			};
+
+			// обновление счётчика времени
+			const setTime = () => {
+				let seconds =
+					`${left % 60}`.length === 1 ? `0${left % 60}` : `${left % 60}`;
+				time.textContent = `0${Math.floor(left / 60)}:${seconds}`;
+			};
+
+			// рестарт всех параметров и обновление счётчиков
+			const restart = () => {
+				left = 90;
+				points = 0;
+				lifes = 5;
+				startAudio();
+				end.setAttribute("style", "display: none;");
+				background.setAttribute("style", "display: none;");
+				setTime();
+				life.textContent = `Life counter: ${lifes}`; // Обновление счётчика жизней
+				score.textContent = `Score: ${points}`; // Обновление счётчика очков
+			};
+
+			// рестарт игры при клике на кнопку
+			start.addEventListener("click", (e) => {
+				restart();
+			});
+		</script>
+	</body>
+</html>

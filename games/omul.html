@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://ideaspacevr.github.io/aframe-particle-system-component/dist/aframe-particle-system-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-pardo-collider-component/dist/aframe-pardo-collider-component.min.js"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      #right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 45px;
+        width: 100px;
+        height: 50px;
+        right: 0;
+        border: 3px solid #2e6482;
+        transform: scaleX(-1);
+        padding: 12px;
+        cursor: pointer;
+        background-color: rgb(0, 0, 0, 0.4);
+      }
+      #left {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        bottom: 45px;
+        width: 100px;
+        height: 50px;
+        left: 0;
+        border: 3px solid #2e6482;
+        padding: 12px;
+        cursor: pointer;
+        background-color: rgb(0, 0, 0, 0.4);
+      }
+      #countc {
+        position: absolute;
+        bottom: calc(100% - 75px);
+        width: 8px;
+        left: calc(100% - 98px);
+
+        color: #2e6482;
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 35px;
+        padding: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #for_countc {
+        position: absolute;
+        bottom: calc(100% - 72px);
+        width: 120px;
+        left: calc(100% - 130px);
+      }
+      #time {
+        position: absolute;
+        bottom: calc(100% - 67px);
+        width: 8px;
+        right: calc(100% - 80px);
+
+        color: #2e6482;
+        font-family: sans-serif;
+        font-weight: bold;
+        font-size: 19px;
+        padding: 12px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #for_time {
+        position: absolute;
+        bottom: calc(100% - 72px);
+        width: 100px;
+        right: calc(100% - 110px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="for_countc">
+      <img
+        src="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/balls.png?v=1679077860688"
+        style="width: 100%"
+      />
+    </div>
+    <div id="countc"></div>
+
+    <div id="for_time">
+      <img
+        src="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/timer.png?v=1679567448520"
+        style="width: 100%"
+      />
+    </div>
+    <div id="time"></div>
+
+    <script>
+      AFRAME.registerComponent("down", {
+        tick: function () {
+          const box = document.getElementById("plat");
+          const cc = document.getElementById("countc");
+          let pso = this.el.getAttribute("position");
+          if (pso["y"] > 0) {
+            pso = `${pso["x"]} ${pso["y"] - 0.02} 0`;
+          }
+          this.el.setAttribute("position", pso);
+          if (this.el.getAttribute("position")["y"] < 0) {
+            let w = Math.random() * 8 - 4;
+            this.el.setAttribute("position", `${w} 5 0`);
+          }
+
+          if (
+            this.el.getAttribute("position")["x"] <
+              box.getAttribute("position")["x"] + 1 &&
+            this.el.getAttribute("position")["x"] >
+              box.getAttribute("position")["x"] - 1 &&
+            this.el.getAttribute("position")["y"] < 1
+          ) {
+            let w = Math.random() * 8 - 4;
+            this.el.setAttribute("position", `${w} 5 0`);
+            cc.textContent = (Number(cc.textContent) + 1).toString();
+          }
+        },
+      });
+    </script>
+    <div id="cell" hidden="true">0</div>
+    <a-scene>
+      <a-entity camera></a-entity>
+      <a-marker  preset="custom"
+      id="mr"
+        type="pattern"
+        url="../base/patterns/pattern-logo.patt" >
+        <a-entity
+          collider
+          id="plat"
+          gltf-model="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/korzina.glb?v=1679561132463"
+          position="0 0 0"
+          scale="1 1 1"
+          rotation="0 0 0"
+          class="collidable"
+        ></a-entity>
+      </a-marker>
+    </a-scene>
+
+    <div id="left">
+      <img
+        src="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/arrow.png?v=1679076542952"
+        style="width: 60%; transform: scaleX(-1)"
+      />
+    </div>
+    <div id="right">
+      <img
+        src="https://cdn.glitch.global/0ecc6900-36b9-4883-8350-3422b24267a8/arrow.png?v=1679076542952"
+        style="width: 60%; transform: scaleX(-1)"
+      />
+    </div>
+
+    <script id="count">
+      count = 0;
+      document
+        .getElementById("plat")
+        .addEventListener("collide", function (evt) {
+          count += 1;
+        });
+    </script>
+    <script>
+      const marker = document.querySelector("#mr");
+      for (let i = 0; i < 3; i++) {
+        let newDiv = document.createElement("a-entity");
+        newDiv.setAttribute(
+          "gltf-model",
+          "https://cdn.glitch.global/33aa1ac4-4c6d-49d0-b78a-73b3c9f291aa/omul_pryzhok%20(1).glb?v=1678551063386"
+        );
+        newDiv.setAttribute("scale", `0.2 0.2 0.2`);
+        newDiv.setAttribute("rotation", `-90 90 0`);
+        newDiv.setAttribute("animation-mixer", `clip: *; loop: repeat`);
+        newDiv.setAttribute("id", `coin${i}`);
+        newDiv.setAttribute("position", `${i * 2 - 2} 5 0`);
+        newDiv.setAttribute("down", "");
+        marker.appendChild(newDiv);
+      }
+    </script>
+    <script>
+      const plat = document.getElementById("plat");
+      const button = document.getElementById("left");
+      button.addEventListener("click", function () {
+        let pso = plat.getAttribute("position");
+        plat.setAttribute("position", `${pso["x"] - 1} 0 0`);
+      });
+      const button2 = document.getElementById("right");
+      button2.addEventListener("click", function () {
+        let pso = plat.getAttribute("position");
+        plat.setAttribute("position", `${pso["x"] + 1} 0 0`);
+      });
+    </script>
+    <script>
+      
+      let left = 2;
+
+      const setTime = () => {
+        let seconds = `${left % 60}`.length === 1 ? `0${left % 60}` : `${left % 60}`;
+        time.textContent = `0${Math.floor(left / 60)}:${seconds}`;
+      };
+
+      const intervalSet = () => {
+        let interval;
+
+        interval = setInterval(() => {
+          ++left;
+          setTime();
+        }, 1000);
+      };
+
+      intervalSet()      
+    </script>
+  </body>
+</html>
