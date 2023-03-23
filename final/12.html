@@ -47,7 +47,11 @@
 			<a-assets>
 				<img id="tx" src="./images/tiles.jpg" />
 			</a-assets>
-			<a-marker  preset='custom' type='pattern' url='../base/patterns/pattern-logo.patt'>
+			<a-marker
+				preset="custom"
+				type="pattern"
+				url="../base/patterns/pattern-logo.patt"
+			>
 				<a-box id="control" src="#tx"></a-box>
 			</a-marker>
 			<a-entity camera></a-entity>
@@ -65,12 +69,12 @@
 		let leftb = document.getElementsByClassName("left")[0];
 		var dx = 25;
 		let z = 0;
-    let y = 0
-    let x = 0
+		let y = 0;
+		let x = 0;
 
 		upb.addEventListener("mousedown", () => {
 			let set = setInterval(() => {
-				obj.setAttribute("rotation", `${x} ${y} 0`);
+				obj.setAttribute("rotation", x.toString() + " " + y.toString() + " 0");
 				x += 1;
 			}, 10);
 			upb.addEventListener("mouseup", () => {
@@ -79,7 +83,7 @@
 		});
 		downb.addEventListener("mousedown", () => {
 			let set = setInterval(() => {
-				obj.setAttribute("rotation", `${x} ${y} 0`);
+				obj.setAttribute("rotation", x.toString() + " " + y.toString() + " 0");
 				x -= 1;
 			}, 10);
 			downb.addEventListener("mouseup", () => {
@@ -88,16 +92,16 @@
 		});
 		rightb.addEventListener("mousedown", () => {
 			let set = setInterval(() => {
-				obj.setAttribute("rotation", `${x} ${y} 0`);
+				obj.setAttribute("rotation", x.toString() + " " + y.toString() + " 0");
 				y += 1;
 			}, 10);
 			rightb.addEventListener("mouseup", () => {
 				clearInterval(set);
 			});
 		});
-    leftb.addEventListener("mousedown", () => {
+		leftb.addEventListener("mousedown", () => {
 			let set = setInterval(() => {
-				obj.setAttribute("rotation", `${x} ${y} 0`);
+				obj.setAttribute("rotation", x.toString() + " " + y.toString() + " 0");
 				y -= 1;
 			}, 10);
 			leftb.addEventListener("mouseup", () => {

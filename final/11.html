@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
@@ -14,7 +15,7 @@
 					el.setAttribute("geometry", "primitive: sphere");
 					el.setAttribute("scale", "0.02 0.02 0.02");
 					el.setAttribute("material", "color: green");
-					el.setAttribute("position", `${this.data}`);
+					el.setAttribute("position", this.data.toString());
 				},
 			});
 		</script>
@@ -29,7 +30,7 @@
 							var el = document.createElement("a-entity");
 							el.setAttribute(
 								"dot",
-								`${data[i]["x"]} ${data[i]["y"]} ${data[i]["z"]}`,
+								data[i]["x"].toString() + " " + data[i]["y"].toString() + " " + data[i]["z"].toString(),
 							);
 							document.querySelector("a-marker").appendChild(el);
 						}

@@ -22,10 +22,23 @@
 					<a-box position="0 0.5 0" color="white"></a-box>
 				</a-entity>
 			</a-marker>
-			<a-marker markerhandler preset="hiro" id="red">
+			<a-marker
+				markerhandler
+				preset="custom"
+				type="pattern"
+				url="./ref/pattern_circle.patt"
+				id="red"
+			>
 				<a-box position="0 0.5 0" color="red"></a-box>
 			</a-marker>
-			<a-marker markerhandler preset="kanji" id="yellow"> </a-marker>
+			<a-marker
+				markerhandler
+				preset="custom"
+				type="pattern"
+				url="./ref/pattern-trans.patt"
+				id="yellow"
+			>
+			</a-marker>
 			<a-entity camera></a-entity>
 		</a-scene>
 		<script>
@@ -46,9 +59,9 @@
 					let box = document.createElement("a-box");
 					console.log(box);
 					box.setAttribute("position", {
-						x: red.object3D.position.x,
-						y: red.object3D.position.y,
-						z: red.object3D.position.z,
+						x: -white.object3D.position.x + red.object3D.position.x,
+						y: -white.object3D.position.y + red.object3D.position.y,
+						z: -white.object3D.position.z + red.object3D.position.z,
 					});
 					box.setAttribute("color", "yellow");
 					smth.insertAdjacentElement("beforeend", box);
